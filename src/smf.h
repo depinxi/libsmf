@@ -219,6 +219,7 @@ extern "C" {
 
 #include <stdio.h>
 #include <glib.h>
+#include <stdint.h>
 
 #if defined(__GNUC__) && __GNUC__ >= 4
 #define WARN_UNUSED_RESULT __attribute__ ((warn_unused_result))
@@ -258,6 +259,7 @@ typedef struct smf_struct smf_t;
 struct smf_tempo_struct {
 	int time_pulses;
 	double time_seconds;
+	int64_t time_microseconds;
 	int microseconds_per_quarter_note;
 	int numerator;
 	int denominator;
@@ -314,6 +316,7 @@ struct smf_event_struct {
 
 	/** Time, in seconds, since the start of the song. */
 	double		time_seconds;
+	int64_t	time_microseconds;
 
 	/** Tracks are numbered consecutively, starting from 1. */
 	int		track_number;

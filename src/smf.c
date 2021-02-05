@@ -227,6 +227,7 @@ smf_event_new(void)
 	event->delta_time_pulses = -1;
 	event->time_pulses = -1;
 	event->time_seconds = -1.0;
+	event->time_microseconds = 0;
 	event->track_number = -1;
 
 	return (event);
@@ -622,6 +623,7 @@ smf_event_remove_from_track(smf_event_t *event)
 	event->delta_time_pulses = -1;
 	event->time_pulses = -1;
 	event->time_seconds = -1.0;
+	event->time_microseconds = -1;
 }
 
 /**

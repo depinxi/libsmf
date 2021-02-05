@@ -40,6 +40,7 @@
 #include "smf_private.h"
 
 static double seconds_from_pulses(const smf_t *smf, int pulses);
+static int64_t microseconds_from_pulses(const smf_t *smf, int pulses);
 
 /**
  * If there is tempo starting at "pulses" already, return it.  Otherwise,
@@ -84,9 +85,15 @@ new_tempo(smf_t *smf, int pulses)
 	g_ptr_array_add(smf->tempo_array, tempo);
 
 	if (pulses == 0)
+	{
 		tempo->time_seconds = 0.0;
+		tempo->time_microseconds = 0;
+	}
 	else
+	{
 		tempo->time_seconds = seconds_from_pulses(smf, pulses);
+		tempo->time_microseconds = microseconds_from_pulses(smf, pulses);
+	}
 
 	return (tempo);
 }
@@ -209,6 +216,22 @@ seconds_from_pulses(const smf_t *smf, int pulses)
 	return (seconds);
 }
 
+static int64_t
+microseconds_from_pulses(const smf_t *smf, int pulses)
+{
+	int64_t microseconds;
+	smf_tempo_t *tempo;
+
+	tempo = smf_get_tempo_by_pulses(smf, pulses);
+	assert(tempo);
+	assert(tempo->time_pulses <= pulses);
+
+	microseconds = tempo->time_microseconds + (pulses - tempo->time_pulses) *
+		(tempo->microseconds_per_quarter_note / smf->ppqn);
+
+	return (microseconds);
+}
+
 static int
 pulses_from_seconds(const smf_t *smf, double seconds)
 {
@@ -248,6 +271,7 @@ smf_create_tempo_map_and_compute_seconds(smf_t *smf)
 		maybe_add_to_tempo_map(event);
 
 		event->time_seconds = seconds_from_pulses(smf, event->time_pulses);
+		event->time_microseconds = microseconds_from_pulses(smf, event->time_pulses);
 	}
 
 	/* Not reached. */
@@ -425,6 +449,7 @@ smf_track_add_event_pulses(smf_track_t *track, smf_event_t *event, int pulses)
 
 	event->time_pulses = pulses;
 	event->time_seconds = seconds_from_pulses(track->smf, pulses);
+	event->time_microseconds = microseconds_from_pulses(track->smf, pulses);
 	smf_track_add_event(track, event);
 }
 
@@ -442,6 +467,7 @@ smf_track_add_event_seconds(smf_track_t *track, smf_event_t *event, double secon
 	assert(track->smf != NULL);
 
 	event->time_seconds = seconds;
+	event->time_microseconds = event->time_seconds * 1000000;
 	event->time_pulses = pulses_from_seconds(track->smf, seconds);
 	smf_track_add_event(track, event);
 }

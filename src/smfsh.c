@@ -44,7 +44,9 @@
 #include <ctype.h>
 #include <assert.h>
 #include "smf.h"
-#include "config.h"
+#if defined (HAVE_CONFIG_H)
+#	include "config.h"
+#endif
 
 #ifdef HAVE_LIBREADLINE
 #include <readline/readline.h>
