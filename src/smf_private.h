@@ -31,7 +31,9 @@
 #include <stdint.h>
 #include <sys/types.h>
 
-#include "config.h"
+#if defined (HAVE_CONFIG_H)
+#	include "config.h"
+#endif
 
 #define SMF_VERSION PACKAGE_VERSION
 
