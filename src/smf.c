@@ -808,6 +808,9 @@ smf_track_get_last_event(const smf_track_t *track)
  * \return Track with next event or NULL, if there are no events left.
  */
 smf_track_t *
+smf_find_track_with_next_event(smf_t *smf);
+
+smf_track_t *
 smf_find_track_with_next_event(smf_t *smf)
 {
 	int i, min_time = 0;

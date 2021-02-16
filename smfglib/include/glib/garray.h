@@ -25,7 +25,7 @@ typedef gint(*GCompareFunc)(gconstpointer a,
  *
  * @see https://developer.gnome.org/glib/stable/glib-Pointer-Arrays.html#g-ptr-array-new
  */
-GPtrArray *g_ptr_array_new();
+GPtrArray *g_ptr_array_new(void);
 
 
 /**

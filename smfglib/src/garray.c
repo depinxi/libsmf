@@ -13,7 +13,7 @@ typedef struct _GPtrArrayImplementation
 	
 } GPtrArrayImplementation;
 
-GPtrArray *g_ptr_array_new()
+GPtrArray *g_ptr_array_new(void)
 {
 	GPtrArrayImplementation *array = (GPtrArrayImplementation *)malloc(sizeof(GPtrArrayImplementation));
 	array->logical_size = 0;
