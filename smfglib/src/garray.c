@@ -93,12 +93,13 @@ g_ptr_array_remove(GPtrArray *arrayInterface,
                    gpointer data)
 {
 	GPtrArrayImplementation *array = (GPtrArrayImplementation *)arrayInterface;
+	guint a,b;
 	
-	for (guint a = 0; a < array->logical_size; ++a)
+	for (a = 0; a < array->logical_size; ++a)
 	{
 		if (array->storage[a] == data)
 		{
-			for (guint b = a + 1; b < array->logical_size; ++b)
+			for (b = a + 1; b < array->logical_size; ++b)
 			{
 				array->storage[b - 1] = array->storage[b];
 			}
@@ -116,6 +117,7 @@ g_ptr_array_remove_index(GPtrArray *arrayInterface,
                           guint index_)
 {
 	GPtrArrayImplementation *array = (GPtrArrayImplementation *)arrayInterface;
+	guint a;
 	
 	if (array->logical_size <= index_)
 	{
@@ -124,7 +126,7 @@ g_ptr_array_remove_index(GPtrArray *arrayInterface,
 	
 	gpointer p = array->storage[index_];
 	
-	for (guint a = index_; a < array->logical_size - 1; ++a)
+	for (a = index_; a < array->logical_size - 1; ++a)
 	{
 		array->storage[a] = array->storage[a + 1];
 	}
